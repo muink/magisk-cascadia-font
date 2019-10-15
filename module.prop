@@ -1,6 +1,6 @@
-id=template
-name=Template Module
+id=@MODULEID
+name=@MODULENAME
 version=v1
 versionCode=1
-author=topjohnwu
-description=A short description
+author=@AUTHOR
+description=Systemless apply @FONTNAME Font for @FONTTYPE
