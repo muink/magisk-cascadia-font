@@ -123,7 +123,7 @@ REPLACE="
 
 print_modname() {
   ui_print "*******************************"
-  ui_print "          @MODULENAME          "
+  ui_print "      Magisk Cascadia Font     "
   ui_print "*******************************"
 }
 
@@ -150,8 +150,8 @@ on_install() {
   )
 
   ui_print "- Installing fonts..."
-  RAWFONTS=`sed -En '/<family name="@FONTTYPE">/,/<\/family>/ {s|.*<font weight="400" style="normal">(.*).ttf<\/font>.*|\1|p}' $MIRRORPATH$FILEPATH$FILE`
-  NEWFONTS='@FONTNAME'
+  RAWFONTS=`sed -En '/<family name="monospace">/,/<\/family>/ {s|.*<font weight="400" style="normal">(.*).ttf<\/font>.*|\1|p}' $MIRRORPATH$FILEPATH$FILE`
+  NEWFONTS='Cascadia'
 
   # Just replace
   ln -s $FONTSPATH${NEWFONTS}.ttf $MODPATH$FONTSPATH${RAWFONTS}.ttf
