@@ -11,17 +11,19 @@ MODULE_AUTHOR=muink
 MODULE_DESCRIPTION="Systemless apply $FONT_NAME Font for $FONT_TYPE"
 
 MODULE_PROP=./module.prop
-MODULE_INSTALL=./install.sh
+MODULE_INSTALL=./customize.sh
 MODULE_README=./README.md
 
 # Get latest font info
 read VERSION DOWNLOAD <<< $(echo `curl -s "https://api.github.com/repos/${FONT_REPO}releases/latest" |
-  sed -En '/: / {s|^.*"tag_name": "([^"]+)",?$|"\1"|p; s|^.*"browser_download_url": "(.*.ttf)",?$|"\1"|p}'`)
+  sed -En '/: / {s|^.*"tag_name": "([^"]+)",?$|"\1"|p; s|^.*"browser_download_url": "(.*.zip)",?$|"\1"|p}'`)
 VERSION=`echo $VERSION | tr -d \" | sed -En 's|^v*(.*)$|v\1|p'`
 
 # Get latest font files
 echo Updating FontFile...
-curl -Lso ./system/fonts/Cascadia.ttf $DOWNLOAD
+eval curl -Lso ./fonts.zip $DOWNLOAD
+unzip -oj ./fonts.zip */CascadiaCode.ttf */CascadiaMono.ttf -d ./system/fonts/
+rm -f ./fonts.zip
 
 # Update module.prop
 echo Updating module.prop...
@@ -38,7 +40,7 @@ sed -Ei "\
   /description=/ s|(.*)=[^=]*$|\1=$MODULE_DESCRIPTION|" \
 $MODULE_PROP
 
-# Update install.sh
+# Update customize.sh
 _space=31
 sed -i "/ui_print \"[ ]*@MODULENAME[ ]*\"$/ \
   s|\".*\"|\"$(printf "%$[$[(${_space}-${#MODULE_NAME})/2]+$[(${_space}-${#MODULE_NAME})%2]]s" ' ')$MODULE_NAME$(printf "%$[(${_space}-${#MODULE_NAME})/2]s" ' ')\"|" \
