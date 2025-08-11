@@ -14,13 +14,15 @@ ui_print "- Searching in fonts.xml"
 FILEPATH=/system/etc/fonts.xml
 
 ui_print "- Installing fonts..."
-TARGET=`sed -En '/<family name="monospace">/,/<\/family>/ {s|.*<font weight="400" style="normal">(.*).ttf<\/font>.*|\1|p}' $FILEPATH`
+TARGET="$(sed -En '/<family name="monospace">/,/<\/family>/ {s|.*<font weight="400" style="normal"[^\>]*>(.*).ttf<\/font>.*|\1|p}' $FILEPATH) \
+	$(sed -En '/<family name="serif-monospace">/,/<\/family>/ {s|.*<font weight="400" style="normal"[^\>]*>(.*).ttf<\/font>.*|\1|p}' $FILEPATH)"
 SOURCE='CascadiaCode'
 #SOURCE='CascadiaMono'
 
 # Just replace
-ln -s /system/fonts/${SOURCE}.ttf $MODPATH/system/fonts/${TARGET}.ttf
-
+for _t in $TARGET; do
+	ln -s /system/fonts/${SOURCE}.ttf $MODPATH/system/fonts/${_t}.ttf
+done
 
 # Default permissions
 set_perm_recursive $MODPATH 0 0 0755 0644
