@@ -12,4 +12,4 @@ MODULE_PROP=./module.prop
 ID=`grep "id=" $MODULE_PROP | cut -d= -f2`
 VERSION=`grep "version=" $MODULE_PROP | cut -d= -f2`
 
-zip -9r ${ID}-${VERSION}.zip README.md module.prop customize.sh "system/" "META-INF/"
+zip -9r ${ID}-${VERSION}.zip README.md module.prop action.sh customize.sh "system/" "META-INF/"

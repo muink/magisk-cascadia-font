@@ -21,7 +21,7 @@ SOURCE='CascadiaCode'
 
 # Just replace
 for _t in $TARGET; do
-	ln -s ${SOURCE}.ttf $MODPATH/system/fonts/${_t}.ttf
+	ln -s ${SOURCE}.ttf $MODPATH/system/fonts/${_t}.ttf.placeholder
 done
 
 # Default permissions
